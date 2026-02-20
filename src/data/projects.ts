@@ -13,4 +13,10 @@ export const projects: Projects[] = [
     budget: 1200000,
     status: "planned",
   },
+  {
+    id: 3,
+    name: "Basketball League",
+    budget: 50000,
+    status: "completed",
+  },
 ];

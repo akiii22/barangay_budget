@@ -1,4 +1,5 @@
 import type { Projects } from "../../types/Projects";
+import { formatCurrency } from "../../utils/formatCurrency";
 import Statusbadge from "./Statusbadge";
 
 type Props = {
@@ -23,9 +24,14 @@ const ProjectTable = ({ projects }: Props) => {
       </thead>
       <tbody className="divide-y divide-gray-400">
         {projects.map((project) => (
-          <tr key={project.id} className="transition hover:bg-gray-50">
+          <tr
+            key={project.id}
+            className="transition hover:bg-gray-50 text-lg font-medium"
+          >
             <td className="py-3 px-4 text-center">{project.name}</td>
-            <td className="py-3 px-4 text-center">${project.budget}</td>
+            <td className="py-3 px-4 text-center">
+              {formatCurrency(project.budget)}
+            </td>
             <td className="py-3 px-4 text-center">
               <Statusbadge status={project.status} />
             </td>
