@@ -7,9 +7,10 @@ type Props = {
 const ExpensesTotal = ({ expenses }: Props) => {
   const total = expenses.reduce((curr, exp) => curr + exp.amount, 0);
   return (
-    <div className="px-4 py-6 bg-white">
-      <h1 className="text-xl px-2 tracking-wide font-bold">
-        Total expenses: {formatCurrency(total)}{" "}
+    <div className="text-right">
+      <p className="text-sm text-slate-500">Total Expenses</p>
+      <h1 className="text-2xl font-bold text-blue-600">
+        {formatCurrency(total)}
       </h1>
     </div>
   );

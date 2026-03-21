@@ -1,11 +1,17 @@
-import type { ProjectStatus } from "../../types/Projects";
+type Props = {
+  status: "planned" | "ongoing" | "completed";
+};
 
-const styles = {
-  planned: "text-yellow-500",
-  ongoing: " text-green-800",
-  completed: "text-red-800",
+const StatusBadge = ({ status }: Props) => {
+  const base = "px-2 py-1 rounded-full text-xs font-medium";
+
+  const styles =
+    status === "completed"
+      ? "bg-green-100 text-green-600"
+      : status === "ongoing"
+        ? "bg-yellow-100 text-yellow-600"
+        : "bg-gray-200 text-gray-600";
+
+  return <span className={`${base} ${styles}`}>{status}</span>;
 };
-const Statusbadge = ({ status }: { status: ProjectStatus }) => {
-  return <span className={`px-5 py-3 mx-4 ${styles[status]}`}>{status}</span>;
-};
-export default Statusbadge;
+export default StatusBadge;

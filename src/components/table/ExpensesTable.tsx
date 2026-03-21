@@ -6,29 +6,33 @@ type Props = {
 const ExpensesTable = ({ expenses }: Props) => {
   return (
     <>
-      <table className="w-full bg-white rounded-xl shadow-xl my-10 py-5">
+      <table className="w-full bg-white rounded-xl shadow-sm overflow-hidden">
         <thead className="bg-gray-50">
           <tr>
-            <th className="px-4 py-3 text-xl font-medium capitalize text-slate-800">
+            <th className="px-6 py-3 text-sm font-semibold text-slate-600 text-left">
               Description
             </th>
-            <th className="px-4 py-3 text-xl font-medium capitalize text-slate-800">
+            <th className="px-6 py-3 text-sm font-semibold text-slate-600 text-center">
               Amount
             </th>
-            <th className="px-4 py-3 text-xl font-medium capitalize text-slate-800">
+            <th className="px-6 py-3 text-sm font-semibold text-slate-600 text-center">
               Date
             </th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-gray-400">
+
+        <tbody className="divide-y">
           {expenses.map((expense) => (
-            <tr
-              key={expense.id}
-              className="text-center transition hover:bg-gray-50 text-lg font-medium  "
-            >
-              <td className="py-4 px-2">{expense.description}</td>
-              <td className="py-4 px-2">{formatCurrency(expense.amount)}</td>
-              <td className="py-4 px-2">{expense.date}</td>
+            <tr key={expense.id} className="hover:bg-gray-50 transition">
+              <td className="px-6 py-4 text-sm text-slate-700">
+                {expense.description}
+              </td>
+              <td className="px-6 py-4 text-sm text-center font-medium text-slate-800">
+                {formatCurrency(expense.amount)}
+              </td>
+              <td className="px-6 py-4 text-sm text-center text-slate-500">
+                {expense.date}
+              </td>
             </tr>
           ))}
         </tbody>
