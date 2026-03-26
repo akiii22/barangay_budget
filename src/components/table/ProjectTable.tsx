@@ -1,13 +1,15 @@
 import { useState } from "react";
 import type { Projects } from "../../types/Projects";
+import type { Expense } from "../../types/Expense";
 import { formatCurrency } from "../../utils/formatCurrency";
 import StatusBadge from "./Statusbadge";
 import { IoCloseCircle } from "react-icons/io5";
 type Props = {
   projects: Projects[];
+  expenses: Expense[];
 };
 
-const ProjectTable = ({ projects }: Props) => {
+const ProjectTable = ({ projects, expenses }: Props) => {
   const [selectedProjects, setSelectedProjects] = useState<Projects | null>(
     null,
   );
@@ -23,6 +25,12 @@ const ProjectTable = ({ projects }: Props) => {
               Budget
             </th>
             <th className="px-6 py-3 text-sm font-semibold text-slate-600 text-center">
+              Expenses
+            </th>
+            <th className="px-6 py-3 text-sm font-semibold text-slate-600 text-center">
+              Remaining
+            </th>
+            <th className="px-6 py-3 text-sm font-semibold text-slate-600 text-center">
               Status
             </th>
             <th className="px-6 py-3 text-sm font-semibold text-slate-600 text-center">
@@ -32,34 +40,52 @@ const ProjectTable = ({ projects }: Props) => {
         </thead>
 
         <tbody className="divide-y">
-          {projects.map((project) => (
-            <tr key={project.id} className="hover:bg-gray-50 transition">
-              <td className="px-6 py-4 text-sm text-slate-700">
-                {project.name}
-              </td>
+          {projects.map((project) => {
+            const projectExpenses = expenses.filter(
+              (exp) => exp.projectId === project.id,
+            );
+            const totalExpenses = projectExpenses.reduce(
+              (sum, exp) => (sum += exp.amount),
+              0,
+            );
+            const remaining = project.budget - totalExpenses;
+            return (
+              <tr key={project.id} className="hover:bg-gray-50 transition">
+                <td className="px-6 py-4 text-sm text-slate-700">
+                  {project.name}
+                </td>
 
-              <td className="px-6 py-4 text-sm text-center font-medium text-slate-800">
-                {formatCurrency(project.budget)}
-              </td>
-
-              <td className="px-6 py-4 text-center">
-                <StatusBadge status={project.status} />
-              </td>
-
-              <td className="px-6 py-4 flex justify-center gap-2">
-                <button
-                  className="px-3 py-1 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-500 cursor-pointer"
-                  onClick={() => setSelectedProjects(project)}
+                <td className="px-6 py-4 text-sm text-center font-medium text-slate-800">
+                  {formatCurrency(project.budget)}
+                </td>
+                <td className="px-6 py-4 text-sm text-center font-medium text-slate-800">
+                  {formatCurrency(totalExpenses)}
+                </td>
+                <td
+                  className={`px-6 py-4 text-sm text-center font-medium  ${remaining <= 0 ? "text-red-500" : "text-green-500"}`}
                 >
-                  View
-                </button>
+                  {formatCurrency(remaining)}
+                </td>
 
-                <button className="px-3 py-1 text-sm bg-green-600 text-white rounded-md hover:bg-green-500 cursor-pointer">
-                  Edit
-                </button>
-              </td>
-            </tr>
-          ))}
+                <td className="px-6 py-4 text-center">
+                  <StatusBadge status={project.status} />
+                </td>
+
+                <td className="px-6 py-4 flex justify-center gap-2">
+                  <button
+                    className="px-3 py-1 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-500 cursor-pointer"
+                    onClick={() => setSelectedProjects(project)}
+                  >
+                    View
+                  </button>
+
+                  <button className="px-3 py-1 text-sm bg-green-600 text-white rounded-md hover:bg-green-500 cursor-pointer">
+                    Edit
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       {selectedProjects && (

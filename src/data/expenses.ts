@@ -57,4 +57,20 @@ export const expenses: Expense[] = [
     amount: 60000,
     date: "2025-02-09",
   },
+
+  {
+    id: 9,
+    projectId: 3,
+    description: "Purchase of cement for floor repair",
+    amount: 30000,
+    date: "2025-01-09",
+  },
+
+  {
+    id: 10,
+    projectId: 3,
+    description: "Purchase of paint",
+    amount: 20000,
+    date: "2025-03-09",
+  },
 ];
